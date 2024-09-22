@@ -10,11 +10,11 @@
             background: linear-gradient(135deg, #6a82fb, #fc5c7d);
             margin: 0;
             padding: 0;
-            opacity: 0; /* Start with hidden opacity */
-            transition: opacity 0.5s ease; /* Transition for fade-in effect */
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
         body.loaded {
-            opacity: 1; /* Fade in */
+            opacity: 1;
         }
         .container {
             max-width: 800px;
@@ -103,8 +103,6 @@
             text-align: center;
             display: none;
         }
-
-        /* Mobile Enhancements */
         @media (max-width: 600px) {
             .container {
                 margin: 20px;
@@ -156,7 +154,7 @@
                     <option value="TPA">TPA</option>
                     <option value="SwasthaSathi">SwasthaSathi</option>
                     <option value="Billing">Billing</option>
-                    <option value="RMO">RMO</option> <!-- Added RMO -->
+                    <option value="RMO">RMO</option>
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -297,22 +295,67 @@
             document.body.classList.add('loaded');
         });
 
+        // Position dropdown population
+        const positions = {
+            "General Male Ward": ["Male Ward In-charge", "Nursing Staff", "Technician", "Attendant"],
+            "General Female Ward": ["Female Ward In-charge", "Nursing Staff", "Technician", "Attendant"],
+            "ICU": ["ICU In-charge", "Nursing Staff(ICU)", "Nursing Staff(BURN)", "Nursing Staff(ONCO)", "Technician"],
+            "Emergency": ["Nursing Staff", "Paramedic", "Attendant"],
+            "Dialysis": ["Nursing Staff", "Technician"],
+            "NICU": ["Nursing Staff", "Technician"],
+            "OPD": ["Nursing Staff", "OPD Attender"],
+            "Medicine": ["Pharmacy In-charge", "Pharmacy Executive"],
+            "Reception": ["Receptionist", "Admin Staff"],
+            "Floor": ["Floor In-charge", "Floor Executive", "Support Staff"],
+            "Store": ["Store In-charge", "Store Executive", "Assistant"],
+            "Diet": ["Dietitian", "Nutritionist"],
+            "TPA": ["TPA Manager", "Assistant"],
+            "SwasthaSathi": ["Coordinator", "Support Staff"],
+            "Billing": ["Billing Clerk", "Admin Staff"],
+            "RMO": ["Resident Medical Officer", "Intern"]
+        };
+
+        document.getElementById('department').addEventListener('change', function() {
+            const department = this.value;
+            const positionDropdown = document.getElementById('position');
+            positionDropdown.innerHTML = '<option value="">Select Position</option>';
+            if (positions[department]) {
+                positions[department].forEach(function(position) {
+                    const option = document.createElement('option');
+                    option.value = position;
+                    option.textContent = position;
+                    positionDropdown.appendChild(option);
+                });
+            }
+        });
+
         document.getElementById('feedbackForm').addEventListener('submit', function(event) {
-            event.preventDefault(); // Prevent the form from submitting the traditional way
+            event.preventDefault();
 
-            // Hide success message initially
+            // Show loading message
+            document.getElementById('loading').style.display = 'block';
             document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('loading').style.display = 'block'; // Show loading message
 
-            // Simulate form submission
-            setTimeout(function() {
-                // Here you would normally send the data to your server
+            // Prepare data to send
+            const formData = new FormData(this);
+
+            // Send data to Google Apps Script
+            fetch('https://script.google.com/macros/s/AKfycbwrLeA8vw5zqCwZoiL8wt385EeRizbIG0zgWins0btaJO1OEN4a_riyCkJEuGUVGSaamw/exec', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.text())
+            .then(data => {
+                console.log(data); // Log response for debugging
                 document.getElementById('loading').style.display = 'none'; // Hide loading message
                 document.getElementById('successMessage').style.display = 'block'; // Show success message
-
-                // Reset the form
-                document.getElementById('feedbackForm').reset();
-            }, 2000); // Simulate a 2 second delay for submission
+                document.getElementById('feedbackForm').reset(); // Reset the form
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('loading').style.display = 'none'; // Hide loading message
+                alert('There was an error submitting your feedback. Please try again.');
+            });
         });
 
         // Validation for required fields
