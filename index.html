@@ -10,6 +10,11 @@
             background: linear-gradient(135deg, #6a82fb, #fc5c7d);
             margin: 0;
             padding: 0;
+            opacity: 0; /* Start with hidden opacity */
+            transition: opacity 0.5s ease; /* Transition for fade-in effect */
+        }
+        body.loaded {
+            opacity: 1; /* Fade in */
         }
         .container {
             max-width: 800px;
@@ -26,8 +31,6 @@
         h1, h2 {
             text-align: center;
             color: #333;
-            margin-bottom: 20px;
-            font-weight: 600;
         }
         img.logo {
             display: block;
@@ -41,10 +44,6 @@
             border-radius: 8px;
             padding: 15px;
             background: #e7f1ff;
-            transition: background 0.3s;
-        }
-        .form-group:hover {
-            background: #d0e7ff;
         }
         .form-group label {
             display: block;
@@ -71,7 +70,7 @@
         .submit-btn {
             display: block;
             width: 100%;
-            padding: 12px;
+            padding: 14px;
             background-color: #ff6f61;
             border: none;
             color: #ffffff;
@@ -79,7 +78,6 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .submit-btn:hover {
             background-color: #e03e31;
@@ -90,17 +88,37 @@
             display: none;
             margin-top: 10px;
         }
-        #successMessage {
-            display: none;
-            color: green;
+        .success-message {
             text-align: center;
-            font-weight: bold;
+            font-size: 24px;
             margin-top: 20px;
-        }
-        #loadingIndicator {
             display: none;
+        }
+        .loading {
             text-align: center;
-            font-weight: bold;
+            display: none;
+        }
+
+        /* Mobile Enhancements */
+        @media (max-width: 600px) {
+            .container {
+                margin: 20px;
+                padding: 15px;
+            }
+            h1, h2 {
+                font-size: 24px;
+            }
+            .form-group {
+                padding: 10px;
+            }
+            .form-group input, .form-group textarea, .form-group select {
+                font-size: 14px;
+                padding: 8px;
+            }
+            .submit-btn {
+                padding: 16px;
+                font-size: 20px;
+            }
         }
     </style>
 </head>
@@ -108,8 +126,6 @@
     <div class="container">
         <img src="https://assets.onecompiler.app/42rjhjuwn/42rjh5tu9/Add_a_heading__3_-removebg-preview.png" alt="Barddhaman Apollo Hospital Logo" class="logo">
         <h1>Employee Feedback Form</h1>
-        <div id="successMessage">Thank you for your feedback!</div>
-        <div id="loadingIndicator">Submitting...</div>
         <form id="feedbackForm">
             <div class="form-group">
                 <label for="name">Name:</label>
@@ -120,16 +136,18 @@
                 <label for="department">Department:</label>
                 <select id="department" name="department" required>
                     <option value="">Select Department</option>
+                    <option value="General Male Ward">General Male Ward</option>
+                    <option value="General Female Ward">General Female Ward</option>
                     <option value="ICU">ICU</option>
                     <option value="Emergency">Emergency</option>
                     <option value="Dialysis">Dialysis</option>
                     <option value="NICU">NICU</option>
-                    <option value="General Male Ward">General Male Ward</option>
-                    <option value="General Female Ward">General Female Ward</option>
                     <option value="OPD">OPD</option>
                     <option value="Medicine">Medicine</option>
                     <option value="Reception">Reception</option>
                     <option value="Floor">Floor</option>
+                    <option value="Store">Store</option>
+                    <option value="Diet">Diet</option>
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -190,14 +208,10 @@
                 <label>Are there any aspects of your job you find challenging or unfulfilling?</label>
                 <textarea name="challenging_aspects" rows="3"></textarea>
             </div>
-            <div class="form-group">
-                <label>Suggestions for enhancing your job satisfaction:</label>
-                <textarea name="job_satisfaction_suggestions" rows="3"></textarea>
-            </div>
 
-            <h2>3. Communication and Management</h2>
+            <h2>3. Communication & Development</h2>
             <div class="form-group">
-                <label>How would you rate the communication between you and your manager/supervisor?</label>
+                <label>How would you rate the communication from management?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="communication_rating" value="Excellent" required> Excellent</label>
                     <label><input type="radio" name="communication_rating" value="Good"> Good</label>
@@ -207,62 +221,44 @@
                 <div class="error" id="communicationRatingError">Please select a rating.</div>
             </div>
             <div class="form-group">
-                <label>Do you feel your opinions are valued within the team?</label>
+                <label>Do you feel your opinions are valued by management?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="opinions_valued" value="Yes" required> Yes</label>
-                    <label><input type="radio" name="opinions_valued" value="Sometimes"> Sometimes</label>
+                    <label><input type="radio" name="opinions_valued" value="Partially"> Partially</label>
                     <label><input type="radio" name="opinions_valued" value="No"> No</label>
                 </div>
                 <div class="error" id="opinionsValuedError">Please select an option.</div>
             </div>
             <div class="form-group">
-                <label>Suggestions for improving communication and management:</label>
-                <textarea name="communication_suggestions" rows="3"></textarea>
-            </div>
-
-            <h2>4. Professional Development</h2>
-            <div class="form-group">
-                <label>How satisfied are you with the opportunities for professional development?</label>
+                <label>Do you feel there are opportunities for professional development within your department?</label>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="professional_development" value="Very Satisfied" required> Very Satisfied</label>
-                    <label><input type="radio" name="professional_development" value="Satisfied"> Satisfied</label>
-                    <label><input type="radio" name="professional_development" value="Neutral"> Neutral</label>
-                    <label><input type="radio" name="professional_development" value="Dissatisfied"> Dissatisfied</label>
+                    <label><input type="radio" name="professional_development" value="Yes" required> Yes</label>
+                    <label><input type="radio" name="professional_development" value="Partially"> Partially</label>
+                    <label><input type="radio" name="professional_development" value="No"> No</label>
                 </div>
-                <div class="error" id="professionalDevelopmentError">Please select a rating.</div>
+                <div class="error" id="professionalDevelopmentError">Please select an option.</div>
             </div>
             <div class="form-group">
-                <label>Are you interested in further training? If yes, please specify:</label>
+                <label>Would you like to receive further training or development?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="further_training" value="Yes" required> Yes</label>
                     <label><input type="radio" name="further_training" value="No"> No</label>
                 </div>
                 <div class="error" id="furtherTrainingError">Please select an option.</div>
             </div>
-            <div class="form-group">
-                <label>If yes, please specify the areas you are interested in:</label>
-                <textarea name="training_areas" rows="3"></textarea>
-            </div>
-
-            <h2>5. Additional Feedback</h2>
-            <div class="form-group">
-                <label>Positive feedback or comments:</label>
-                <textarea name="positive_feedback" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Suggestions for improvement:</label>
-                <textarea name="improvement_suggestions" rows="3"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Any additional comments:</label>
-                <textarea name="additional_comments" rows="3"></textarea>
-            </div>
 
             <button type="submit" class="submit-btn">Submit Feedback</button>
+            <div class="loading" id="loadingIndicator">Submitting your feedback...</div>
+            <div class="success-message" id="successMessage"></div>
         </form>
     </div>
 
     <script>
+        // Fade in effect on page load
+        window.onload = function() {
+            document.body.classList.add('loaded'); // Add class to fade in
+        };
+
         const departmentSelect = document.getElementById('department');
         const positionSelect = document.getElementById('position');
 
@@ -276,7 +272,9 @@
             'OPD': ['Sister', 'OPD Attender'],
             'Medicine': ['Pharmacy In-Charge', 'Pharmacy Executive'],
             'Reception': ['Post Receptionist'],
-            'Floor': ['Floor Executive', 'Floor In-Charge', 'Floor Coordinator']
+            'Floor': ['Floor Executive', 'Floor In-Charge', 'Floor Coordinator', 'Housekeeping In-Charge'],
+            'Store': ['Store In-Charge', 'Store Executive'],
+            'Diet': ['Dietitian']
         };
 
         departmentSelect.addEventListener('change', function() {
@@ -290,6 +288,27 @@
                 positionSelect.appendChild(option);
             });
         });
+
+        function getEmojiBasedOnFeedback() {
+            const jobSatisfaction = document.querySelector('input[name="job_satisfaction"]:checked');
+            const workEnvironment = document.querySelector('input[name="work_environment"]:checked');
+            
+            if (jobSatisfaction && workEnvironment) {
+                const satisfactionValue = jobSatisfaction.value;
+                const environmentValue = workEnvironment.value;
+
+                if (satisfactionValue === "Very Satisfied" && environmentValue === "Excellent") {
+                    return "😄"; // Happy
+                } else if (satisfactionValue === "Satisfied" && environmentValue === "Good") {
+                    return "😊"; // Smiling
+                } else if (satisfactionValue === "Neutral") {
+                    return "😐"; // Neutral
+                } else if (satisfactionValue === "Dissatisfied" || environmentValue === "Poor") {
+                    return "😞"; // Sad
+                }
+            }
+            return "😅"; // Default funny emoji
+        }
 
         document.getElementById('feedbackForm').addEventListener('submit', function(event) {
             event.preventDefault();
@@ -346,6 +365,8 @@
                 })
                 .then(data => {
                     document.getElementById('loadingIndicator').style.display = 'none';
+                    const emoji = getEmojiBasedOnFeedback();
+                    document.getElementById('successMessage').innerHTML = `Thank you for your feedback! ${emoji}`;
                     document.getElementById('successMessage').style.display = 'block';
                     this.reset(); // Reset the form
                 })
