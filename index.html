@@ -340,7 +340,7 @@
             const formData = new FormData(this);
 
             // Send data to Google Apps Script
-            fetch('https://script.google.com/macros/s/AKfycbwrLeA8vw5zqCwZoiL8wt385EeRizbIG0zgWins0btaJO1OEN4a_riyCkJEuGUVGSaamw/exec', {
+            fetch('https://script.google.com/macros/s/AKfycbxfgseIoGEiX3bheAZeDYiozPkkZhuNDK1bjF8PyAY2DINrYTHKVYyy6jA7Hfls8DearA/exec', {
                 method: 'POST',
                 body: formData
             })
@@ -360,7 +360,7 @@
 
         // Validation for required fields
         document.getElementById('feedbackForm').addEventListener('input', function() {
-            const requiredFields = ['name', 'department', 'position', 'date', 'work_environment', 'tools_resources', 'job_satisfaction', 'communication_manager', 'opinions_valued', 'development_satisfaction', 'further_training'];
+            const requiredFields = ['name', 'department', 'position', 'date', 'work_environment', 'tools_resources', 'job_satisfaction', 'enjoy_aspects','challenging_aspects', 'job_satisfaction_suggestions', 'communication_rating', 'opinions_valued', 'communication_management_suggestions', 'development_satisfaction', 'further_training', 'training_areas', 'positive_feedback', 'suggestions_for_improvement', 'additional_comments'];
             requiredFields.forEach(field => {
                 const input = document.querySelector(`[name="${field}"]`);
                 const error = document.getElementById(`${field}Error`);
