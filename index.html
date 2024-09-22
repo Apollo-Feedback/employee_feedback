@@ -26,6 +26,8 @@
         h1, h2 {
             text-align: center;
             color: #333;
+            margin-bottom: 20px;
+            font-weight: 600;
         }
         img.logo {
             display: block;
@@ -39,6 +41,10 @@
             border-radius: 8px;
             padding: 15px;
             background: #e7f1ff;
+            transition: background 0.3s;
+        }
+        .form-group:hover {
+            background: #d0e7ff;
         }
         .form-group label {
             display: block;
@@ -73,6 +79,7 @@
             border-radius: 8px;
             cursor: pointer;
             transition: background-color 0.3s, transform 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .submit-btn:hover {
             background-color: #e03e31;
@@ -87,10 +94,13 @@
             display: none;
             color: green;
             text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
         }
         #loadingIndicator {
             display: none;
             text-align: center;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -110,11 +120,16 @@
                 <label for="department">Department:</label>
                 <select id="department" name="department" required>
                     <option value="">Select Department</option>
+                    <option value="ICU">ICU</option>
+                    <option value="Emergency">Emergency</option>
+                    <option value="Dialysis">Dialysis</option>
+                    <option value="NICU">NICU</option>
                     <option value="General Male Ward">General Male Ward</option>
                     <option value="General Female Ward">General Female Ward</option>
-                    <option value="ICU">ICU</option>
-                    <option value="Reception">Reception</option>
+                    <option value="OPD">OPD</option>
                     <option value="Medicine">Medicine</option>
+                    <option value="Reception">Reception</option>
+                    <option value="Floor">Floor</option>
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -192,7 +207,7 @@
                 <div class="error" id="communicationRatingError">Please select a rating.</div>
             </div>
             <div class="form-group">
-                <label>Do you feel your opinions and ideas are valued by your manager/supervisor?</label>
+                <label>Do you feel your opinions are valued within the team?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="opinions_valued" value="Yes" required> Yes</label>
                     <label><input type="radio" name="opinions_valued" value="Sometimes"> Sometimes</label>
@@ -252,11 +267,16 @@
         const positionSelect = document.getElementById('position');
 
         const positions = {
+            'ICU': ['Sister', 'Brother', 'ICU In-Charge', 'ICU Technician'],
+            'Emergency': ['Sister', 'Brother', 'EMT Technician'],
+            'Dialysis': ['Sister', 'Brother', 'Dialysis Technician'],
+            'NICU': ['Sister', 'Brother', 'NICU Technician'],
             'General Male Ward': ['Sister', 'Brother', 'Male Ward In-Charge'],
             'General Female Ward': ['Sister', 'Female Ward In-Charge'],
-            'ICU': ['Sister', 'Brother', 'ICU In-Charge', 'ICU Technician'],
+            'OPD': ['Sister', 'OPD Attender'],
+            'Medicine': ['Pharmacy In-Charge', 'Pharmacy Executive'],
             'Reception': ['Post Receptionist'],
-            'Medicine': ['Pharmacy In-Charge', 'Pharmacy Executive']
+            'Floor': ['Floor Executive', 'Floor In-Charge', 'Floor Coordinator']
         };
 
         departmentSelect.addEventListener('change', function() {
@@ -320,7 +340,10 @@
                     method: 'POST',
                     body: new FormData(this)
                 })
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.text();
+                })
                 .then(data => {
                     document.getElementById('loadingIndicator').style.display = 'none';
                     document.getElementById('successMessage').style.display = 'block';
