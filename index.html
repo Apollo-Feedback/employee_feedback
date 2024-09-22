@@ -23,10 +23,11 @@
             background: #ffffff;
             border-radius: 12px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         .container:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
         }
         h1, h2 {
             text-align: center;
@@ -44,6 +45,10 @@
             border-radius: 8px;
             padding: 15px;
             background: #e7f1ff;
+            transition: background 0.3s;
+        }
+        .form-group:hover {
+            background: #d0e7ff;
         }
         .form-group label {
             display: block;
@@ -148,6 +153,10 @@
                     <option value="Floor">Floor</option>
                     <option value="Store">Store</option>
                     <option value="Diet">Diet</option>
+                    <option value="TPA">TPA</option>
+                    <option value="SwasthaSathi">SwasthaSathi</option>
+                    <option value="Billing">Billing</option>
+                    <option value="RMO">RMO</option> <!-- Added RMO -->
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -202,179 +211,122 @@
             </div>
             <div class="form-group">
                 <label>What aspects of your job do you enjoy the most?</label>
-                <textarea name="enjoyable_aspects" rows="3"></textarea>
+                <textarea name="enjoy_aspects" rows="3"></textarea>
             </div>
             <div class="form-group">
                 <label>Are there any aspects of your job you find challenging or unfulfilling?</label>
                 <textarea name="challenging_aspects" rows="3"></textarea>
             </div>
-
-            <h2>3. Communication & Development</h2>
             <div class="form-group">
-                <label>How would you rate the communication from management?</label>
+                <label>Suggestions for enhancing your job satisfaction:</label>
+                <textarea name="job_satisfaction_suggestions" rows="3"></textarea>
+            </div>
+
+            <h2>3. Communication and Management</h2>
+            <div class="form-group">
+                <label>How would you rate the communication between you and your manager/supervisor?</label>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="communication_rating" value="Excellent" required> Excellent</label>
-                    <label><input type="radio" name="communication_rating" value="Good"> Good</label>
-                    <label><input type="radio" name="communication_rating" value="Fair"> Fair</label>
-                    <label><input type="radio" name="communication_rating" value="Poor"> Poor</label>
+                    <label><input type="radio" name="communication_manager" value="Excellent" required> Excellent</label>
+                    <label><input type="radio" name="communication_manager" value="Good"> Good</label>
+                    <label><input type="radio" name="communication_manager" value="Fair"> Fair</label>
+                    <label><input type="radio" name="communication_manager" value="Poor"> Poor</label>
                 </div>
-                <div class="error" id="communicationRatingError">Please select a rating.</div>
+                <div class="error" id="communicationManagerError">Please select a rating.</div>
             </div>
             <div class="form-group">
-                <label>Do you feel your opinions are valued by management?</label>
+                <label>Do you feel your opinions and ideas are valued by your manager/supervisor?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="opinions_valued" value="Yes" required> Yes</label>
-                    <label><input type="radio" name="opinions_valued" value="Partially"> Partially</label>
+                    <label><input type="radio" name="opinions_valued" value="Sometimes"> Sometimes</label>
                     <label><input type="radio" name="opinions_valued" value="No"> No</label>
                 </div>
                 <div class="error" id="opinionsValuedError">Please select an option.</div>
             </div>
             <div class="form-group">
-                <label>Do you feel there are opportunities for professional development within your department?</label>
+                <label>Suggestions for improving communication and management:</label>
+                <textarea name="communication_management_suggestions" rows="3"></textarea>
+            </div>
+
+            <h2>4. Professional Development</h2>
+            <div class="form-group">
+                <label>How satisfied are you with the opportunities for professional development?</label>
                 <div class="checkbox-group">
-                    <label><input type="radio" name="professional_development" value="Yes" required> Yes</label>
-                    <label><input type="radio" name="professional_development" value="Partially"> Partially</label>
-                    <label><input type="radio" name="professional_development" value="No"> No</label>
+                    <label><input type="radio" name="development_satisfaction" value="Very Satisfied" required> Very Satisfied</label>
+                    <label><input type="radio" name="development_satisfaction" value="Satisfied"> Satisfied</label>
+                    <label><input type="radio" name="development_satisfaction" value="Neutral"> Neutral</label>
+                    <label><input type="radio" name="development_satisfaction" value="Dissatisfied"> Dissatisfied</label>
                 </div>
-                <div class="error" id="professionalDevelopmentError">Please select an option.</div>
+                <div class="error" id="developmentSatisfactionError">Please select a rating.</div>
             </div>
             <div class="form-group">
-                <label>Would you like to receive further training or development?</label>
+                <label>Are you interested in further training?</label>
                 <div class="checkbox-group">
                     <label><input type="radio" name="further_training" value="Yes" required> Yes</label>
                     <label><input type="radio" name="further_training" value="No"> No</label>
                 </div>
                 <div class="error" id="furtherTrainingError">Please select an option.</div>
             </div>
+            <div class="form-group">
+                <label>If yes, please specify the areas you are interested in:</label>
+                <textarea name="training_areas" rows="3"></textarea>
+            </div>
 
+            <h2>5. Additional Feedback</h2>
+            <div class="form-group">
+                <label>Positive Feedback or Comments:</label>
+                <textarea name="positive_feedback" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Suggestions for Improvement:</label>
+                <textarea name="suggestions_for_improvement" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Do you have any additional comments or feedback?</label>
+                <textarea name="additional_feedback" rows="4"></textarea>
+            </div>
+
+            <div class="loading" id="loading">Submitting your feedback...</div>
+            <div class="success-message" id="successMessage">Thank you for your feedback!</div>
             <button type="submit" class="submit-btn">Submit Feedback</button>
-            <div class="loading" id="loadingIndicator">Submitting your feedback...</div>
-            <div class="success-message" id="successMessage"></div>
         </form>
     </div>
 
     <script>
-        // Fade in effect on page load
-        window.onload = function() {
-            document.body.classList.add('loaded'); // Add class to fade in
-        };
-
-        const departmentSelect = document.getElementById('department');
-        const positionSelect = document.getElementById('position');
-
-        const positions = {
-            'ICU': ['Sister', 'Brother', 'ICU In-Charge', 'ICU Technician'],
-            'Emergency': ['Sister', 'Brother', 'EMT Technician'],
-            'Dialysis': ['Sister', 'Brother', 'Dialysis Technician'],
-            'NICU': ['Sister', 'Brother', 'NICU Technician'],
-            'General Male Ward': ['Sister', 'Brother', 'Male Ward In-Charge'],
-            'General Female Ward': ['Sister', 'Female Ward In-Charge'],
-            'OPD': ['Sister', 'OPD Attender'],
-            'Medicine': ['Pharmacy In-Charge', 'Pharmacy Executive'],
-            'Reception': ['Post Receptionist'],
-            'Floor': ['Floor Executive', 'Floor In-Charge', 'Floor Coordinator', 'Housekeeping In-Charge'],
-            'Store': ['Store In-Charge', 'Store Executive'],
-            'Diet': ['Dietitian']
-        };
-
-        departmentSelect.addEventListener('change', function() {
-            const selectedDepartment = this.value;
-            const positionOptions = positions[selectedDepartment] || [];
-            positionSelect.innerHTML = '<option value="">Select Position</option>';
-            positionOptions.forEach(pos => {
-                const option = document.createElement('option');
-                option.value = pos;
-                option.textContent = pos;
-                positionSelect.appendChild(option);
-            });
+        // Fade in effect for the body
+        window.addEventListener('load', function() {
+            document.body.classList.add('loaded');
         });
 
-        function getEmojiBasedOnFeedback() {
-            const jobSatisfaction = document.querySelector('input[name="job_satisfaction"]:checked');
-            const workEnvironment = document.querySelector('input[name="work_environment"]:checked');
-            
-            if (jobSatisfaction && workEnvironment) {
-                const satisfactionValue = jobSatisfaction.value;
-                const environmentValue = workEnvironment.value;
-
-                if (satisfactionValue === "Very Satisfied" && environmentValue === "Excellent") {
-                    return "😄"; // Happy
-                } else if (satisfactionValue === "Satisfied" && environmentValue === "Good") {
-                    return "😊"; // Smiling
-                } else if (satisfactionValue === "Neutral") {
-                    return "😐"; // Neutral
-                } else if (satisfactionValue === "Dissatisfied" || environmentValue === "Poor") {
-                    return "😞"; // Sad
-                }
-            }
-            return "😅"; // Default funny emoji
-        }
-
         document.getElementById('feedbackForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            let isValid = true;
+            event.preventDefault(); // Prevent the form from submitting the traditional way
 
-            // Clear previous errors
-            const errorElements = document.querySelectorAll('.error');
-            errorElements.forEach(error => error.style.display = 'none');
+            // Hide success message initially
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('loading').style.display = 'block'; // Show loading message
 
-            // Validate each field
-            if (!document.getElementById('name').value) {
-                isValid = false;
-                document.getElementById('nameError').style.display = 'block';
-            }
-            if (!document.getElementById('department').value) {
-                isValid = false;
-                document.getElementById('departmentError').style.display = 'block';
-            }
-            if (!document.getElementById('position').value) {
-                isValid = false;
-                document.getElementById('positionError').style.display = 'block';
-            }
-            if (!document.getElementById('date').value) {
-                isValid = false;
-                document.getElementById('dateError').style.display = 'block';
-            }
+            // Simulate form submission
+            setTimeout(function() {
+                // Here you would normally send the data to your server
+                document.getElementById('loading').style.display = 'none'; // Hide loading message
+                document.getElementById('successMessage').style.display = 'block'; // Show success message
 
-            const radioGroups = [
-                { name: 'work_environment', errorId: 'workEnvironmentError' },
-                { name: 'tools_resources', errorId: 'toolsResourcesError' },
-                { name: 'job_satisfaction', errorId: 'jobSatisfactionError' },
-                { name: 'communication_rating', errorId: 'communicationRatingError' },
-                { name: 'opinions_valued', errorId: 'opinionsValuedError' },
-                { name: 'professional_development', errorId: 'professionalDevelopmentError' },
-                { name: 'further_training', errorId: 'furtherTrainingError' }
-            ];
+                // Reset the form
+                document.getElementById('feedbackForm').reset();
+            }, 2000); // Simulate a 2 second delay for submission
+        });
 
-            radioGroups.forEach(group => {
-                if (!document.querySelector(`input[name="${group.name}"]:checked`)) {
-                    isValid = false;
-                    document.getElementById(group.errorId).style.display = 'block';
+        // Validation for required fields
+        document.getElementById('feedbackForm').addEventListener('input', function() {
+            const requiredFields = ['name', 'department', 'position', 'date', 'work_environment', 'tools_resources', 'job_satisfaction', 'communication_manager', 'opinions_valued', 'development_satisfaction', 'further_training'];
+            requiredFields.forEach(field => {
+                const input = document.querySelector(`[name="${field}"]`);
+                const error = document.getElementById(`${field}Error`);
+                if (input && input.value === '') {
+                    error.style.display = 'block';
+                } else {
+                    error.style.display = 'none';
                 }
             });
-
-            if (isValid) {
-                document.getElementById('loadingIndicator').style.display = 'block';
-                fetch('https://script.google.com/macros/s/AKfycbzRcpriMp_3heUi9z1V-Zjh-okqn-0-X667O1N5KpYmVARIxuzuTWlGuqj464wQSo0JVw/exec', {
-                    method: 'POST',
-                    body: new FormData(this)
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.text();
-                })
-                .then(data => {
-                    document.getElementById('loadingIndicator').style.display = 'none';
-                    const emoji = getEmojiBasedOnFeedback();
-                    document.getElementById('successMessage').innerHTML = `Thank you for your feedback! ${emoji}`;
-                    document.getElementById('successMessage').style.display = 'block';
-                    this.reset(); // Reset the form
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    document.getElementById('loadingIndicator').style.display = 'none';
-                });
-            }
         });
     </script>
 </body>
