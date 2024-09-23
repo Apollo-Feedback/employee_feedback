@@ -155,7 +155,9 @@
                     <option value="SwasthaSathi">SwasthaSathi</option>
                     <option value="Billing">Billing</option>
                     <option value="RMO">RMO</option>
-                    <option value="OT">OT</option> <!-- New department -->
+                    <option value="OT">OT</option>
+                    <option value="Marketing">Marketing</option> <!-- New department -->
+                    <option value="Housekeeping">Housekeeping</option> <!-- New department -->
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -314,7 +316,9 @@
             "SwasthaSathi": ["Coordinator", "Support Staff"],
             "Billing": ["Billing Clerk", "Admin Staff"],
             "RMO": ["Resident Medical Officer", "Intern"],
-            "OT": ["OT In-Charge", "OT Technician", "OT Sister", "OT Brother", "OT Assistant"] // Added OT Assistant
+            "OT": ["OT In-Charge", "OT Technician", "OT Sister", "OT Brother", "OT Assistant"], // Added OT Assistant
+            "Marketing": ["Marketing Manager", "Marketing Executive"], // New department positions
+            "Housekeeping": ["Housekeeping In-Charge", "Housekeeping Staff", "Security"] // New department positions
         };
 
         document.getElementById('department').addEventListener('change', function() {
