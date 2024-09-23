@@ -155,6 +155,7 @@
                     <option value="SwasthaSathi">SwasthaSathi</option>
                     <option value="Billing">Billing</option>
                     <option value="RMO">RMO</option>
+                    <option value="OT">OT</option> <!-- New department -->
                 </select>
                 <div class="error" id="departmentError">Please select your department.</div>
             </div>
@@ -312,7 +313,8 @@
             "TPA": ["TPA Manager", "Assistant"],
             "SwasthaSathi": ["Coordinator", "Support Staff"],
             "Billing": ["Billing Clerk", "Admin Staff"],
-            "RMO": ["Resident Medical Officer", "Intern"]
+            "RMO": ["Resident Medical Officer", "Intern"],
+            "OT": ["OT In-Charge", "OT Technician", "OT Sister", "OT Brother"] // New positions
         };
 
         document.getElementById('department').addEventListener('change', function() {
@@ -360,7 +362,7 @@
 
         // Validation for required fields
         document.getElementById('feedbackForm').addEventListener('input', function() {
-            const requiredFields = ['name', 'department', 'position', 'date', 'work_environment', 'tools_resources', 'job_satisfaction', 'enjoy_aspects','challenging_aspects', 'job_satisfaction_suggestions', 'communication_rating', 'opinions_valued', 'communication_management_suggestions', 'development_satisfaction', 'further_training', 'training_areas', 'positive_feedback', 'suggestions_for_improvement', 'additional_comments'];
+            const requiredFields = ['name', 'department', 'position', 'date', 'work_environment', 'tools_resources', 'job_satisfaction', 'enjoy_aspects', 'challenging_aspects', 'job_satisfaction_suggestions', 'communication_manager', 'opinions_valued', 'communication_management_suggestions', 'development_satisfaction', 'further_training', 'training_areas', 'positive_feedback', 'suggestions_for_improvement', 'additional_feedback'];
             requiredFields.forEach(field => {
                 const input = document.querySelector(`[name="${field}"]`);
                 const error = document.getElementById(`${field}Error`);
